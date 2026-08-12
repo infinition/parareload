@@ -1,0 +1,77 @@
+name: Release
+
+on:
+  push:
+    tags:
+      - 'v*'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  build-and-release:
+    runs-on: windows-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup .NET SDK
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '8.0.x'
+
+      - name: Prepare Release Package
+        shell: powershell
+        run: |
+          $tag = "${{ github.ref_name }}"
+          if (-not $tag) { $tag = "v1.0.0" }
+          
+          New-Item -ItemType Directory -Force -Path "dist/ParaReload"
+          
+          # Copy project source and documentation into package
+          Copy-Item -Path "ParaReload.csproj" -Destination "dist/ParaReload/"
+          Copy-Item -Path "src" -Destination "dist/ParaReload/" -Recurse
+          Copy-Item -Path "README.md" -Destination "dist/ParaReload/"
+          Copy-Item -Path "LICENSE" -Destination "dist/ParaReload/"
+          if (Test-Path "docs") { Copy-Item -Path "docs" -Destination "dist/ParaReload/" -Recurse }
+          
+          Compress-Archive -Path "dist/ParaReload/*" -DestinationPath "ParaReload-${tag}.zip" -Force
+
+      - name: Generate Commit Details Changelog
+        id: changelog
+        shell: powershell
+        run: |
+          $prevTag = (git tag --sort=-creatordate | Select-Object -Skip 1 | Select-Object -First 1)
+          if ($prevTag) {
+            $commits = git log "$prevTag..HEAD" --pretty=format:"* %s (%h)"
+          } else {
+            $commits = git log -n 30 --pretty=format:"* %s (%h)"
+          }
+          
+          $body = @"
+          ## ParaReload Release (${{ github.ref_name }})
+          
+          Hot-reload asset packages and mod objects in Paralives without restarting the game.
+          
+          ### Commit Log & Changes
+          $commits
+          "@
+          
+          Set-Content -Path "release_notes.md" -Value $body -Encoding UTF8
+
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: ${{ github.ref_name }}
+          name: ParaReload ${{ github.ref_name }}
+          body_path: release_notes.md
+          files: |
+            ParaReload-*.zip
+          draft: false
+          prerelease: false
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
