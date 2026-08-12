@@ -37,6 +37,9 @@ Press `CTRL` + `SHIFT` + `C` in-game to open the cheat console:
 
 ### Recommended Modding Workflow (Blender / Photoshop)
 
+> [!TIP]
+> **Complementary Blender Addon**: Combine **ParaReload** with [**ParaForge**](https://github.com/infinition/paraforge), a Blender extension that automatically validates 3D models against Paralives rules, builds texture maps, and exports ready-to-use `.mod` packages straight into your game folder.
+
 For standard 3D modeling and texture editing in Blender:
 1. Enable `autoreload` in game or run `reload` when saving changes.
 2. Use standard `reload` instead of `reloadall`. `reload` handles all custom `.mod` directories while leaving base game assets untouched for fast iteration.
@@ -100,6 +103,9 @@ Appuyez sur `CTRL` + `MAJ` + `C` en jeu pour ouvrir la console :
 | `autoreload [on\|off]` | Bascule le mode de surveillance automatique des fichiers. |
 
 ### Flux de Travail Recommandé (Blender / Photoshop)
+
+> [!TIP]
+> **Extension Blender complémentaire** : Associez **ParaReload** avec [**ParaForge**](https://github.com/infinition/paraforge), une extension Blender qui valide automatiquement vos modèles 3D selon les règles de Paralives, génère les textures et exporte vos packages `.mod` directement dans le dossier du jeu.
 
 Pour la creation 3D et le texte de mods :
 1. Activez `autoreload` en jeu ou tapez `reload` lors de la sauvegarde dans Blender.
