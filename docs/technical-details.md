@@ -23,25 +23,40 @@ When executing the `reload` command in the cheat console (`CTRL` + `SHIFT` + `C`
 
 Standard asset package unloading (`AssetData.Unload()`) destroys active Unity `Mesh` and `Texture2D` instances in memory via `Object.Destroy`. However, persistent object GUIDs remain unchanged because they originate from `.meta` definitions.
 
-Without active repair, objects already placed in the world lose their rendering references and disappear, while newly placed objects render without textures.
+Without active repair:
+- Placed objects lose their mesh references and disappear from the world.
+- Newly placed objects import their mesh correctly but render without textures.
 
-`VisualRefresher` solves these four reference breaks:
+`VisualRefresher` solves these reference breaks via four core steps:
 
-### Mesh Reassignment
-Meshes must be reassigned using the explicit overload `SetMesh(Mesh, Mesh)` rather than `SetMesh(ulong)`. The single-argument `ulong` overload exits immediately if the requested GUID already matches the existing component GUID. Because GUIDs remain unchanged during a reload, only `SetMesh(Mesh, Mesh)` forces Unity to bind the freshly re-created `Mesh` asset.
+### Mesh Reassignment (`SetMesh`)
+Meshes must be reassigned using the explicit overload `SetMesh(Mesh, Mesh)` rather than `SetMesh(ulong)`. The single-argument `ulong` overload checks `if (meshGUID == AssetMesh) return false;` and exits immediately if the requested GUID matches the component's stored GUID. Because GUIDs remain unchanged during a reload, only `SetMesh(Mesh, Mesh)` forces Unity to bind the newly re-created `Mesh` asset.
 
 ### Material Batching Reset
 Clears the batched material dictionary using `MaterialBuilder.ResetBatching`.
 
 ### MaterialBuilder Singleton Reset
-Resets the `MaterialBuilder` singleton state. On initial startup, `MaterialBuilder` caches the global `Surfaces` definition and never re-reads it natively. Resetting the singleton ensures newly added surfaces from hot-loaded mods become visible to the material construction system.
+Resets the `MaterialBuilder` singleton state (`_instance = null`). On initial startup, `MaterialBuilder.Init()` captures `Settings.Get<Surfaces>()` once and never refreshes it natively. Resetting the singleton ensures newly added surface definitions from hot-loaded mods become visible to the material builder.
 
-### Material Invalidation
-Flags materials, walls, floors, mouldings, and platforms as dirty, forcing native rendering systems to rebuild visual components over subsequent animation frames.
+### Manager Material Invalidation
+Populates native dirty material lists to trigger frame-budgeted rebuilds (20 ms limit per frame):
+- `SegmentManager.DirtyMaterials`: Flags wall segments.
+- `MoldingManager.DirtyMaterials`: Flags moldings and trims.
+- `ZoneManager.DirtyPlatformMaterials`: Flags floor platforms and zones.
 
 ---
 
-## 3. Command Injection via Harmony
+## 3. Scope & Design Trade-offs
+
+### Para Characters Visuals
+Character models and CAS bodies are not automatically rebuilt on reload. Full reconstruction requires unloading and re-instantiating active character game objects, which would cancel ongoing character actions and interactions. If character models appear untextured after executing `reloadall`, reload the save file.
+
+### Mod Isolation
+`reload` targets user-added `.mod` directories exclusively, leaving `Main.mod` (base game content) untouched. `reloadall` includes `Main.mod` for full-game refreshes.
+
+---
+
+## 4. Command Injection via Harmony
 
 The native game engine resolves cheat console commands via reflection within `ProcessCheatCommandEvent.UpdateMessage`:
 
@@ -57,7 +72,7 @@ Because C# does not support adding methods to existing compiled classes at runti
 
 ---
 
-## 4. Automatic File System Watcher (`autoreload`)
+## 5. Automatic File System Watcher (`autoreload`)
 
 The `autoreload` command initializes a recursive `FileSystemWatcher` monitoring mod folders:
 
@@ -66,7 +81,7 @@ The `autoreload` command initializes a recursive `FileSystemWatcher` monitoring 
 
 ---
 
-## 5. Compilation & Building
+## 6. Compilation & Building
 
 ### Prerequisites
 - .NET SDK (supporting `net472` target framework).
