@@ -1,0 +1,41 @@
+# Build outputs
+bin/
+obj/
+[Dd]ebug/
+[Rr]elease/
+*.dll
+*.pdb
+*.exe
+
+# Exception: DLLs explicitly checked into source (none currently)
+
+# IDE & Editor files
+.vs/
+.idea/
+.vscode/
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+
+# Blender & Temporary files
+*.blend1
+*.blend2
+*.tmp
+*.bak
+*.log
+
+# Game cache & generated directories
+_Metacache/
+_GeneratedThumbnails/
+AssetReimportInfo.txt
+
+# OS metadata
+[Tt]humbs.db
+.DS_Store
+
+# Secrets & Local Configurations
+*.env
+*.secret
+*.pem
+*.key

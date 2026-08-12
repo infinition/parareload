@@ -1,0 +1,56 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net472</TargetFramework>
+    <AssemblyName>ParaReload</AssemblyName>
+    <RootNamespace>ParaReload</RootNamespace>
+    <Version>1.0.0</Version>
+    <LangVersion>latest</LangVersion>
+    <AllowUnsafeBlocks>false</AllowUnsafeBlocks>
+    <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
+    <EnableDefaultCompileItems>false</EnableDefaultCompileItems>
+    <DebugType>none</DebugType>
+    <GenerateAssemblyInfo>true</GenerateAssemblyInfo>
+    <NoWarn>$(NoWarn);CS0436;MSB3277</NoWarn>
+
+    <!-- Racines locales : rien n'est telecharge, tout vient du jeu et de BepInEx. -->
+    <GameDir>C:\Paralives.Access\Paralives</GameDir>
+    <ManagedDir>$(GameDir)\Paralives_Data\Managed</ManagedDir>
+    <BepInExCoreDir>$(GameDir)\BepInEx\core</BepInExCoreDir>
+    <PluginsDir>$(GameDir)\BepInEx\plugins</PluginsDir>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Include="src\**\*.cs" />
+  </ItemGroup>
+
+  <!--
+    Les Include sont des chemins de fichiers (jokers autorises) : MSBuild les resout
+    directement, ce qui evite d'enumerer les 60 modules UnityEngine a la main.
+    Private=false : rien de tout ca ne doit etre copie a cote du plugin.
+  -->
+  <ItemGroup>
+    <Reference Include="$(BepInExCoreDir)\BepInEx.dll" />
+    <Reference Include="$(BepInExCoreDir)\0Harmony.dll" />
+    <Reference Include="$(ManagedDir)\Paralives.dll" />
+    <Reference Include="$(ManagedDir)\UnityEngine.dll" />
+    <Reference Include="$(ManagedDir)\UnityEngine.*Module.dll" />
+    <Reference Include="$(ManagedDir)\Unity.TextMeshPro.dll" />
+    <Reference Include="$(ManagedDir)\Unity.Mathematics.dll" />
+    <Reference Include="$(ManagedDir)\Unity.InputSystem.dll" />
+    <Reference Include="$(ManagedDir)\Unity.Addressables.dll" />
+    <Reference Include="$(ManagedDir)\Unity.ResourceManager.dll" />
+    <Reference Include="$(ManagedDir)\Unity.RenderPipelines.Core.Runtime.dll" />
+    <Reference Include="$(ManagedDir)\Unity.RenderPipelines.Universal.Runtime.dll" />
+    <Reference Include="$(ManagedDir)\Animancer.dll" />
+    <Reference Update="@(Reference)" Private="false" />
+  </ItemGroup>
+
+  <!-- Deploiement direct dans BepInEx/plugins. -->
+  <Target Name="DeployToGame" AfterTargets="Build" Condition="Exists('$(PluginsDir)')">
+    <MakeDir Directories="$(PluginsDir)\ParaReload" />
+    <Copy SourceFiles="$(TargetPath)" DestinationFolder="$(PluginsDir)\ParaReload" ContinueOnError="true" />
+    <Message Importance="high" Text="ParaReload deploye dans $(PluginsDir)\ParaReload" />
+  </Target>
+
+</Project>
