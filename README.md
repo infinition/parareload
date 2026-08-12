@@ -1,6 +1,10 @@
-# ParaReload
+<div align="center">
+  <img src="assets/icon.png" alt="ParaReload Logo" width="160" />
 
-[English](#english) | [Français](#francais)
+  # ParaReload
+
+  [English](#english) | [Français](#francais)
+</div>
 
 ---
 
