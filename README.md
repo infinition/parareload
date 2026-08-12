@@ -23,6 +23,22 @@ Target Game: Paralives Early Access (BepInEx 5.4+)
 - **Automatic File Watching**: Monitor mod directories and reload automatically when saving files in Blender, Photoshop, or text editors.
 - **World Restoration**: Automatically repairs in-memory mesh and material references for objects already placed in the world via `VisualRefresher`.
 
+### Screenshots & In-Game Console
+
+<p align="center">
+  <img src="assets/screenshot3.png" alt="ParaReload Cheat Autocompletion" width="500">
+  <br>
+  <em>Cheat console autocompletion showing injected ParaReload commands (AUTORELOAD, RELOAD, RELOADALL, RELOADLIST).</em>
+</p>
+
+<br>
+
+<p align="center">
+  <img src="assets/screenshot4.png" alt="ParaReload Console Output and Live World Objects" width="800">
+  <br>
+  <em>Live execution of reload commands in the Paralives cheat console while custom mod items remain rendered in the world.</em>
+</p>
+
 ### Console Commands
 
 Press `CTRL` + `SHIFT` + `C` in-game to open the cheat console:
@@ -33,7 +49,10 @@ Press `CTRL` + `SHIFT` + `C` in-game to open the cheat console:
 | `reload <ModName>` | Reloads a specific mod (supports partial name matching). |
 | `reloadall` | Reloads all mods including base game data (`Main.mod`). Heavy operation. |
 | `reloadlist` | Lists all currently loaded mods, status, and asset counts. |
-| `autoreload [on\|off]` | Toggles automatic file watching mode. |
+| `autoreload [on\|off]` | Toggles automatic file watching mode. *(Experimental)* |
+
+> [!WARNING]
+> **Experimental Feature**: `autoreload` (automatic file system watching) is currently **experimental**. For stability during mod development, it is strongly recommended to use manual `reload` commands instead of `autoreload`.
 
 ### Recommended Modding Workflow (Blender / Photoshop)
 
@@ -41,7 +60,7 @@ Press `CTRL` + `SHIFT` + `C` in-game to open the cheat console:
 > **Complementary Blender Addon**: Combine **ParaReload** with [**ParaForge**](https://github.com/infinition/paraforge), a Blender extension that automatically validates 3D models against Paralives rules, builds texture maps, and exports ready-to-use `.mod` packages straight into your game folder.
 
 For standard 3D modeling and texture editing in Blender:
-1. Enable `autoreload` in game or run `reload` when saving changes.
+1. Run `reload` (or `reload <ModName>`) in game when saving changes in Blender.
 2. Use standard `reload` instead of `reloadall`. `reload` handles all custom `.mod` directories while leaving base game assets untouched for fast iteration.
 
 ### Scope & Limitations
@@ -90,6 +109,22 @@ Cible : Paralives Early Access (BepInEx 5.4+)
 - **Surveillance Automatique** : Surveillez les dossiers de mods et rechargez automatiquement lors de la sauvegarde sous Blender, Photoshop ou un editeur de texte.
 - **Restauration du Monde** : Repare automatiquement les references de maillages et materiaux pour les objets deja poses dans le monde via `VisualRefresher`.
 
+### Captures d'écran et Console
+
+<p align="center">
+  <img src="assets/screenshot3.png" alt="Autocomplétion de ParaReload" width="500">
+  <br>
+  <em>Autocomplétion de la console de triche affichant les commandes injectées par ParaReload (AUTORELOAD, RELOAD, RELOADALL, RELOADLIST).</em>
+</p>
+
+<br>
+
+<p align="center">
+  <img src="assets/screenshot4.png" alt="Sortie console et objets en jeu" width="800">
+  <br>
+  <em>Exécution des commandes de rechargement dans la console de Paralives avec affichage en direct des objets de mod sur le terrain.</em>
+</p>
+
 ### Commandes Console
 
 Appuyez sur `CTRL` + `MAJ` + `C` en jeu pour ouvrir la console :
@@ -100,7 +135,10 @@ Appuyez sur `CTRL` + `MAJ` + `C` en jeu pour ouvrir la console :
 | `reload <NomDuMod>` | Recharge un mod specifique (accepte la recherche partielle par nom). |
 | `reloadall` | Recharge tous les mods, y compris le contenu de base du jeu (`Main.mod`). Operation plus lourde. |
 | `reloadlist` | Liste l'ensemble des mods charges, leur statut et leur nombre d'assets. |
-| `autoreload [on\|off]` | Bascule le mode de surveillance automatique des fichiers. |
+| `autoreload [on\|off]` | Bascule le mode de surveillance automatique des fichiers. *(Expérimental)* |
+
+> [!WARNING]
+> **Fonctionnalité expérimentale** : La commande `autoreload` (surveillance automatique des fichiers) est actuellement **expérimentale**. Pour une stabilité optimale lors de la création de vos mods, il est préférable de ne pas l'utiliser pour l'instant et de privilégier la commande `reload` manuelle.
 
 ### Flux de Travail Recommandé (Blender / Photoshop)
 
@@ -108,7 +146,7 @@ Appuyez sur `CTRL` + `MAJ` + `C` en jeu pour ouvrir la console :
 > **Extension Blender complémentaire** : Associez **ParaReload** avec [**ParaForge**](https://github.com/infinition/paraforge), une extension Blender qui valide automatiquement vos modèles 3D selon les règles de Paralives, génère les textures et exporte vos packages `.mod` directement dans le dossier du jeu.
 
 Pour la creation 3D et le texte de mods :
-1. Activez `autoreload` en jeu ou tapez `reload` lors de la sauvegarde dans Blender.
+1. Lancez la commande `reload` (ou `reload <NomDuMod>`) en jeu lors de la sauvegarde dans Blender.
 2. Utilisez la commande `reload` simple au lieu de `reloadall`. `reload` prend en charge vos dossiers `.mod` sans toucher aux assets du jeu de base, garantissant des rechargements rapides.
 
 ### Portée et Limites
