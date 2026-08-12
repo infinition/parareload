@@ -71,11 +71,18 @@ For standard 3D modeling and texture editing in Blender:
 
 ### Quick Installation
 
-1. Install **BepInEx 5.4** for Paralives.
-2. Download `ParaReload.zip` from the [Releases](https://github.com/infinition/parareload/releases) page.
-3. Extract `ParaReload.dll` into your BepInEx plugins directory:  
+#### Step 1: Install BepInEx 5.4 (Mod Loader)
+1. Download `BepInEx_x64_5.4.23.0.zip` (or latest 5.4.x x64 release) from [BepInEx Releases](https://github.com/BepInEx/BepInEx/releases).
+2. Open your Paralives game folder (In Steam: right-click Paralives > *Manage* > *Browse local files*).
+3. Extract all zip files directly into the root Paralives folder (alongside `Paralives.exe`).
+4. Launch Paralives once to generate BepInEx folders, then exit the game.
+
+#### Step 2: Install ParaReload
+1. Download `ParaReload.zip` from the [Releases](https://github.com/infinition/parareload/releases) page.
+2. Extract `ParaReload.dll` into your BepInEx plugins directory:  
    `Paralives/BepInEx/plugins/ParaReload/ParaReload.dll`
-4. Launch Paralives and open the cheat console using `CTRL` + `SHIFT` + `C`.
+3. Launch Paralives and open the cheat console using `CTRL` + `SHIFT` + `C`.
+4. Type `reload` to refresh your custom mods.
 
 ### Configuration
 
@@ -157,11 +164,18 @@ Pour la creation 3D et le texte de mods :
 
 ### Installation Rapide
 
-1. Installez **BepInEx 5.4** pour Paralives.
-2. Telechargez `ParaReload.zip` depuis la page des [Releases](https://github.com/infinition/parareload/releases).
-3. Extrayez `ParaReload.dll` dans votre dossier de plugins BepInEx :  
+#### Étape 1 : Installer BepInEx 5.4 (Mod Loader)
+1. Téléchargez `BepInEx_x64_5.4.23.0.zip` (ou version 5.4.x x64 récente) depuis [Releases BepInEx](https://github.com/BepInEx/BepInEx/releases).
+2. Ouvrez le dossier du jeu Paralives (Dans Steam : clic droit sur Paralives > *Gérer* > *Parcourir les fichiers locaux*).
+3. Extrayez tous les fichiers du zip directement à la racine de Paralives (à côté de `Paralives.exe`).
+4. Lancez Paralives une fois pour créer les dossiers BepInEx, puis fermez le jeu.
+
+#### Étape 2 : Installer ParaReload
+1. Téléchargez `ParaReload.zip` depuis la page des [Releases](https://github.com/infinition/parareload/releases).
+2. Extrayez `ParaReload.dll` dans votre dossier de plugins BepInEx :  
    `Paralives/BepInEx/plugins/ParaReload/ParaReload.dll`
-4. Lancez Paralives et ouvrez la console avec `CTRL` + `MAJ` + `C`.
+3. Lancez Paralives et ouvrez la console avec `CTRL` + `MAJ` + `C`.
+4. Tapez `reload` pour rafraîchir vos mods.
 
 ### Configuration
 
