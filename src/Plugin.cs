@@ -8,7 +8,7 @@ using UnityEngine;
 
 namespace ParaReload
 {
-    [BepInPlugin(Guid, "ParaReload", "1.0.0")]
+    [BepInPlugin(Guid, "ParaReload", "1.0.1")]
     [BepInProcess("Paralives.exe")]
     public class Plugin : BaseUnityPlugin
     {

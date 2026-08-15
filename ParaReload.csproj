@@ -4,7 +4,7 @@
     <TargetFramework>net472</TargetFramework>
     <AssemblyName>ParaReload</AssemblyName>
     <RootNamespace>ParaReload</RootNamespace>
-    <Version>1.0.0</Version>
+    <Version>1.0.1</Version>
     <LangVersion>latest</LangVersion>
     <AllowUnsafeBlocks>false</AllowUnsafeBlocks>
     <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
@@ -14,10 +14,10 @@
     <NoWarn>$(NoWarn);CS0436;MSB3277</NoWarn>
 
     <!-- Racines locales : rien n'est telecharge, tout vient du jeu et de BepInEx. -->
-    <GameDir>C:\Paralives.Access\Paralives</GameDir>
-    <ManagedDir>$(GameDir)\Paralives_Data\Managed</ManagedDir>
-    <BepInExCoreDir>$(GameDir)\BepInEx\core</BepInExCoreDir>
-    <PluginsDir>$(GameDir)\BepInEx\plugins</PluginsDir>
+    <GameDir Condition="'$(GameDir)' == ''">C:\Paralives.Access\Paralives</GameDir>
+    <ManagedDir Condition="'$(ManagedDir)' == ''">$(GameDir)\Paralives_Data\Managed</ManagedDir>
+    <BepInExCoreDir Condition="'$(BepInExCoreDir)' == ''">$(GameDir)\BepInEx\core</BepInExCoreDir>
+    <PluginsDir Condition="'$(PluginsDir)' == ''">$(GameDir)\BepInEx\plugins</PluginsDir>
   </PropertyGroup>
 
   <ItemGroup>

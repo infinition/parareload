@@ -28,18 +28,32 @@ jobs:
         shell: powershell
         run: |
           $tag = "${{ github.ref_name }}"
-          if (-not $tag) { $tag = "v1.0.0" }
+          if (-not $tag) { $tag = "v1.0.1" }
           
           New-Item -ItemType Directory -Force -Path "dist/ParaReload"
           
-          # Copy project source and documentation into package
-          Copy-Item -Path "ParaReload.csproj" -Destination "dist/ParaReload/"
-          Copy-Item -Path "src" -Destination "dist/ParaReload/" -Recurse
+          # Try building if possible or copy pre-built DLL
+          if (Test-Path "bin/Release/ParaReload.dll") {
+              Copy-Item -Path "bin/Release/ParaReload.dll" -Destination "dist/ParaReload/"
+          } elseif (Test-Path "ParaReload.dll") {
+              Copy-Item -Path "ParaReload.dll" -Destination "dist/ParaReload/"
+          } else {
+              try {
+                  dotnet build ParaReload.csproj -c Release
+                  if (Test-Path "bin/Release/ParaReload.dll") {
+                      Copy-Item -Path "bin/Release/ParaReload.dll" -Destination "dist/ParaReload/"
+                  }
+              } catch {
+                  Write-Warning "Could not build ParaReload.dll in CI environment."
+              }
+          }
+          
           Copy-Item -Path "README.md" -Destination "dist/ParaReload/"
           Copy-Item -Path "LICENSE" -Destination "dist/ParaReload/"
           if (Test-Path "docs") { Copy-Item -Path "docs" -Destination "dist/ParaReload/" -Recurse }
           
           Compress-Archive -Path "dist/ParaReload/*" -DestinationPath "ParaReload-${tag}.zip" -Force
+          Copy-Item -Path "ParaReload-${tag}.zip" -Destination "ParaReload.zip" -Force
 
       - name: Generate Commit Details Changelog
         id: changelog
@@ -71,6 +85,7 @@ jobs:
           body_path: release_notes.md
           files: |
             ParaReload-*.zip
+            ParaReload.zip
           draft: false
           prerelease: false
         env:
